@@ -1,3 +1,65 @@
+$cell-font: "Arial", sans-serif;
+$font-size: 30px;
+$cell-size: 100px;
+$cell-color: #eee;
+$cell-color_hover: #fcc0cb;
+$cell-border: 1px solid #000;
+$edge: 1px;
+$days: (tue: 1, wed: 2, thu: 3, fri: 4, sat: 5, sun: 6);
+
 body {
   margin: 0;
+  font-family: $cell-font;
+}
+
+.calendar {
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
+  width: ($cell-size + $edge) * 7;
+  height: 100vh;
+  margin: 0 auto;
+  font-size: $font-size;
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: $cell-size;
+    height: $cell-size;
+    margin-right: $edge;
+    margin-bottom: $edge;
+    background-color: $cell-color;
+    border: $cell-border;
+  }
+
+  div:hover {
+    background-color: $cell-color_hover;
+    cursor: pointer;
+    transform: translateY(-20px);
+    transition-duration: 0.5s;
+  }
+
+  @for $i from 1 through 31 {
+    div:nth-child(#{$i}):before {
+      content: "#{$i}";
+    }
+  }
+}
+
+@each $day, $margin-left in $days {
+  .calendar-#{$day} {
+    div:first-child {
+      margin-left: $margin-left * ($cell-size+$edge);
+    }
+  }
+}
+
+@for $i from 28 through 30 {
+  .calendar-#{$i} {
+    div:nth-child(n+#{$i+1}) {
+      display: none;
+    }
+  }
 }
